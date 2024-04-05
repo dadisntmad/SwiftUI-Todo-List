@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  ToDoList
-//
-//  Created by Ruslan Lantsov on 05.04.2024.
-//
-
 import SwiftUI
 
 struct ContentView: View {
