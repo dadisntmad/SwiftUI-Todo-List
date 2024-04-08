@@ -3,8 +3,9 @@ import SwiftUI
 struct SignUpView: View {
     @State private var email = ""
     @State private var password = ""
-    @State private var passwordConfirmation = ""
     @State private var isSecure = true
+    
+    @Environment(\.dismiss) private var dismiss
     
     
     private var isValid: Bool {
@@ -16,7 +17,6 @@ struct SignUpView: View {
     }
     
     var body: some View {
-        
         VStack(spacing: 24) {
             
             Spacer()
@@ -38,40 +38,11 @@ struct SignUpView: View {
                 
                 if isSecure {
                     SecureField("Password", text: $password)
-                        .padding()
-                        .frame(height: 50)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.gray.opacity(0.2))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay(alignment: .trailing) {
-                            Image(systemName: isSecure ? "eye" : "eye.slash")
-                                .foregroundStyle(isSecure ? Color.gray : Color.black)
-                                .padding(.trailing, 16)
-                                .onTapGesture {
-                                    withAnimation {
-                                        isSecure.toggle()
-                                    }
-                                }
-                        }
-                        .textInputAutocapitalization(.never)
+                        .modifier(SecureTextFieldViewModifier(isSecure: $isSecure))
                 } else {
                     TextField("Password", text: $password)
-                        .padding()
-                        .frame(height: 50)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.gray.opacity(0.2))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay(alignment: .trailing) {
-                            Image(systemName: isSecure ? "eye" : "eye.slash")
-                                .foregroundStyle(isSecure ? Color.gray : Color.black)
-                                .padding(.trailing, 16)
-                                .onTapGesture {
-                                    withAnimation {
-                                        isSecure.toggle()
-                                    }
-                                }
-                        }
-                        .textInputAutocapitalization(.never)
+                        .modifier(SecureTextFieldViewModifier(isSecure: $isSecure))
+                        
                 }
                 
                 ButtonView(title: "Sign Up", action: {
@@ -91,16 +62,18 @@ struct SignUpView: View {
                 Text("Already have an account?")
                     .font(.footnote)
                 
-                Text("Sign In")
-                    .font(.footnote)
-                    .bold()
-                    .onTapGesture {
-                        
-                    }
+                Button(action: {
+                    dismiss()
+                }, label: {
+                    Text("Sign In")
+                        .font(.footnote)
+                        .bold()
+                })
             }
         }
     }
 }
+
 
 #Preview {
     SignUpView()
