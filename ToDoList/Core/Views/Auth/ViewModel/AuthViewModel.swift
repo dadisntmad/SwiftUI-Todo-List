@@ -6,10 +6,16 @@ class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var signUpError: String?
     @Published var signInError: String?
+    @Published var isAuthenticated = false
     
     
     private let auth = Auth.auth()
     private let firestore = Firestore.firestore()
+    
+    
+    init() {
+        checkAuthentication()
+    }
     
     @MainActor
     func signUp(email: String, password: String) async throws {
@@ -21,7 +27,7 @@ class AuthViewModel: ObservableObject {
                 isLoading = false
                 
                 signUpError = "Error creating a user. Please try again later."
-            
+                
                 return
             }
             
@@ -86,6 +92,12 @@ class AuthViewModel: ObservableObject {
             
             print("Sign Out Error: \(error.localizedDescription)")
         }
+    }
+    
+    private func checkAuthentication() {
+        let res = auth.currentUser?.uid != nil
+        
+        isAuthenticated = res
     }
 }
 
