@@ -13,6 +13,7 @@
 		F77BC9D72BC0898E0025762F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77BC9D62BC0898E0025762F /* SignInView.swift */; };
 		F77BC9DC2BC08DF50025762F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77BC9DB2BC08DF50025762F /* ButtonView.swift */; };
 		F77BC9DF2BC094EE0025762F /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77BC9DE2BC094EE0025762F /* SignUpView.swift */; };
+		F7CBDB3E2BC5A74B0090A467 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CBDB3D2BC5A74B0090A467 /* ErrorView.swift */; };
 		F7CD862B2BC460C300C1414E /* SecureTextFieldViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CD862A2BC460C300C1414E /* SecureTextFieldViewModifier.swift */; };
 		F7CD862E2BC4643400C1414E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F7CD862D2BC4643400C1414E /* FirebaseAuth */; };
 		F7CD86312BC4646800C1414E /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CD86302BC4646800C1414E /* UserModel.swift */; };
@@ -30,6 +31,7 @@
 		F77BC9D62BC0898E0025762F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		F77BC9DB2BC08DF50025762F /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		F77BC9DE2BC094EE0025762F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		F7CBDB3D2BC5A74B0090A467 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		F7CD862A2BC460C300C1414E /* SecureTextFieldViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureTextFieldViewModifier.swift; sourceTree = "<group>"; };
 		F7CD86302BC4646800C1414E /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		F7CD86392BC4668F00C1414E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				F77BC9DB2BC08DF50025762F /* ButtonView.swift */,
+				F7CBDB3D2BC5A74B0090A467 /* ErrorView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				F7CD863C2BC46C5700C1414E /* AuthViewModel.swift in Sources */,
 				F7CD86312BC4646800C1414E /* UserModel.swift in Sources */,
 				F77BC9DC2BC08DF50025762F /* ButtonView.swift in Sources */,
+				F7CBDB3E2BC5A74B0090A467 /* ErrorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

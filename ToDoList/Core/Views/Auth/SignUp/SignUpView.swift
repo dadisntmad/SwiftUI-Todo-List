@@ -42,12 +42,16 @@ struct SignUpView: View {
                 } else {
                     TextField("Password", text: $password)
                         .modifier(SecureTextFieldViewModifier(isSecure: $isSecure))
-                        
+                    
+                }
+                
+                if let error = authViewModel.signUpError {
+                    ErrorView(error: error)
                 }
                 
                 ButtonView(title: "Sign Up", action: {
                     Task {
-                       try await authViewModel.signUp(email: email, password: password)
+                        try await authViewModel.signUp(email: email, password: password)
                     }
                 },
                            fillColor: fillColor,

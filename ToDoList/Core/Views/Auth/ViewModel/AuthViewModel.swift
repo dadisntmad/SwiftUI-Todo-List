@@ -4,6 +4,8 @@ import FirebaseFirestore
 
 class AuthViewModel: ObservableObject {
     @Published var isLoading = false
+    @Published var signUpError: String?
+    @Published var signInError: String?
     
     
     private let auth = Auth.auth()
@@ -15,16 +17,34 @@ class AuthViewModel: ObservableObject {
         isLoading = true
         
         do {
-            guard let user = try? await auth.createUser(withEmail: email, password: password) else { return }
+            guard let user = try? await auth.createUser(withEmail: email, password: password) else {
+                isLoading = false
+                
+                signUpError = "Error creating a user. Please try again later."
+            
+                return
+            }
             
             let newUser = UserModel(uid: user.user.uid, email: email)
             
             try firestore.collection("users").document(newUser.uid).setData(from: newUser)
             
+            signUpError = nil
             isLoading = false
             
         } catch (let error) {
-            print("Sign Up Error: \(error.localizedDescription)")
+            isLoading = false
+            
+            let e = error as NSError
+            
+            switch e.code {
+            case AuthErrorCode.emailAlreadyInUse.rawValue:
+                signUpError = "Email already in use."
+            case AuthErrorCode.weakPassword.rawValue:
+                signUpError = "Weak password."
+            default:
+                signUpError = e.localizedDescription
+            }
         }
     }
     
@@ -35,10 +55,21 @@ class AuthViewModel: ObservableObject {
         do {
             try await auth.signIn(withEmail: email, password: password)
             
+            signInError = nil
             isLoading = false
             
         } catch (let error) {
-            print("Sign In Error: \(error.localizedDescription)")
+            
+            isLoading = false
+            
+            let e = error as NSError
+            
+            switch e.code {
+            case AuthErrorCode.invalidEmail.rawValue, AuthErrorCode.wrongPassword.rawValue:
+                signInError = "Invalid email or password. Please try again."
+            default:
+                signInError = e.localizedDescription
+            }
         }
     }
     
@@ -51,6 +82,8 @@ class AuthViewModel: ObservableObject {
             
             isLoading = false
         } catch (let error) {
+            isLoading = false
+            
             print("Sign Out Error: \(error.localizedDescription)")
         }
     }
