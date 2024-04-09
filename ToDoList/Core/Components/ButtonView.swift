@@ -7,25 +7,29 @@ struct ButtonView: View {
     var isLoading: Bool
     
     var body: some View {
+    
         Button(action: action, label: {
-            if isLoading {
-                ProgressView()
-            } else {
-                Text(title)
-                
+            VStack {
+                if isLoading {
+                    ProgressView()
+                } else {
+                    Text(title)
+                }
             }
-        }
-        )
-        .font(.subheadline)
-        .fontWeight(.medium)
-        .frame(height: 50)
-        .frame(maxWidth: .infinity)
-        .background(fillColor)
-        .foregroundStyle(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .frame(height: 50)
+            .frame(maxWidth: .infinity)
+            .background(isLoading ? Color.gray.opacity(0.65) : fillColor)
+            .foregroundStyle(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+                   
+                       
+        })
     }
 }
 
 #Preview {
     ButtonView(title: "Sign In", action: {}, fillColor: Color.black, isLoading: true)
 }
+

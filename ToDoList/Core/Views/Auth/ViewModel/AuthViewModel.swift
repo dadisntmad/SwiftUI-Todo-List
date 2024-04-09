@@ -6,9 +6,10 @@ class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     
     
-   private let auth = Auth.auth()
-   private let firestore = Firestore.firestore()
+    private let auth = Auth.auth()
+    private let firestore = Firestore.firestore()
     
+    @MainActor
     func signUp(email: String, password: String) async throws {
         
         isLoading = true
@@ -24,6 +25,33 @@ class AuthViewModel: ObservableObject {
             
         } catch (let error) {
             print("Sign Up Error: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func signIn(email: String, password: String) async throws {
+        isLoading = true
+        
+        do {
+            try await auth.signIn(withEmail: email, password: password)
+            
+            isLoading = false
+            
+        } catch (let error) {
+            print("Sign In Error: \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func signOut() {
+        isLoading = true
+        
+        do {
+            try auth.signOut()
+            
+            isLoading = false
+        } catch (let error) {
+            print("Sign Out Error: \(error.localizedDescription)")
         }
     }
 }

@@ -47,7 +47,9 @@ struct SignInView: View {
                     }
                     
                     ButtonView(title: "Sign In", action: {
-                        
+                        Task {
+                           try await authViewModel.signIn(email: email, password: password)
+                        }
                     },
                                fillColor: fillColor,
                                isLoading: authViewModel.isLoading
