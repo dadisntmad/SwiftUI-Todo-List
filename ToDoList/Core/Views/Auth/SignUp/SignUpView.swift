@@ -6,7 +6,7 @@ struct SignUpView: View {
     @State private var isSecure = true
     
     @Environment(\.dismiss) private var dismiss
-    
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     private var isValid: Bool {
         !email.isEmpty && !password.isEmpty
@@ -46,11 +46,14 @@ struct SignUpView: View {
                 }
                 
                 ButtonView(title: "Sign Up", action: {
-                    
+                    Task {
+                       try await authViewModel.signUp(email: email, password: password)
+                    }
                 },
-                           fillColor: fillColor
+                           fillColor: fillColor,
+                           isLoading: authViewModel.isLoading
                 )
-                .disabled(!isValid)
+                .disabled(!isValid || authViewModel.isLoading)
             }
             .padding()
             
@@ -77,4 +80,5 @@ struct SignUpView: View {
 
 #Preview {
     SignUpView()
+        .environmentObject(AuthViewModel())
 }

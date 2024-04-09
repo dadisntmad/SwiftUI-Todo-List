@@ -5,6 +5,7 @@ struct SignInView: View {
     @State private var password = ""
     @State private var isSecure = true
     
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     private var isValid: Bool {
         !email.isEmpty && !password.isEmpty
@@ -48,9 +49,10 @@ struct SignInView: View {
                     ButtonView(title: "Sign In", action: {
                         
                     },
-                               fillColor: fillColor
+                               fillColor: fillColor,
+                               isLoading: authViewModel.isLoading
                     )
-                    .disabled(!isValid)
+                    .disabled(!isValid || authViewModel.isLoading)
                 }
                 .padding()
                 
@@ -76,4 +78,5 @@ struct SignInView: View {
 
 #Preview {
     SignInView()
+        .environmentObject(AuthViewModel())
 }
