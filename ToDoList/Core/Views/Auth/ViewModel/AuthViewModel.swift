@@ -23,15 +23,10 @@ class AuthViewModel: ObservableObject {
         isLoading = true
         
         do {
-            guard let user = try? await auth.createUser(withEmail: email, password: password) else {
-                isLoading = false
-                
-                signUpError = "Error creating a user. Please try again later."
-                
-                return
-            }
             
-            let newUser = UserModel(uid: user.user.uid, email: email)
+            try await auth.createUser(withEmail: email, password: password)
+            
+            let newUser = UserModel(uid: auth.currentUser?.uid ?? "", email: email)
             
             try firestore.collection("users").document(newUser.uid).setData(from: newUser)
             
