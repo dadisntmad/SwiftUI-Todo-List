@@ -36,7 +36,7 @@ class HomeViewModel: ObservableObject {
                         return nil
                     }
                 }
-        }
+            }
     }
     
     
@@ -44,18 +44,22 @@ class HomeViewModel: ObservableObject {
     func addTask(taskText: String) async throws {
         isLoading = true
         
-            let taskId = UUID().uuidString
-            
-            let task = TaskModel(
-                uid: auth.currentUser?.uid ?? "",
-                taskId: taskId,
-                taskText: taskText,
-                createdAt: .now,
-                isCompleted: false
-            )
-            
-            try firestore.collection("tasks").document(taskId).setData(from: task)
-            
-            isLoading = false
+        let taskId = UUID().uuidString
+        
+        let task = TaskModel(
+            uid: auth.currentUser?.uid ?? "",
+            taskId: taskId,
+            taskText: taskText,
+            createdAt: .now,
+            isCompleted: false
+        )
+        
+        try firestore.collection("tasks").document(taskId).setData(from: task)
+        
+        isLoading = false
+    }
+    
+    func deleteTask(taskId: String) async throws {
+        try await firestore.collection("tasks").document(taskId).delete()
     }
 }

@@ -30,8 +30,8 @@ struct HomeView: View {
                     })
                     
                     Button(action: {
-                              authViewModel.signOut()
-
+                        authViewModel.signOut()
+                        
                     }, label: {
                         Image(systemName: "person.circle")
                             .foregroundStyle(.black)
@@ -47,7 +47,7 @@ struct HomeView: View {
                                 Circle()
                                     .strokeBorder(.green, lineWidth: 1)
                                     .frame(width: 20, height: 20)
-                    
+                                
                                 Image(systemName: "checkmark")
                                     .resizable()
                                     .foregroundStyle(.green)
@@ -59,22 +59,24 @@ struct HomeView: View {
                                 .frame(height: 40)
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
-                                     // delete
+                                        Task {
+                                            try await homeViewModel.deleteTask(taskId: task.id)
+                                        }
                                     } label: {
                                         Label("Delete", systemImage: "trash")
                                     }
-                                    Button { 
+                                    Button {
                                         // edit
                                     } label: {
                                         Label("Edit", systemImage: "pencil.and.scribble")
-                                            
+                                        
                                     }
                                     .tint(.gray)
-                            }
-                        }
+                                }
                         }
                     }
                 }
+            }
             .listStyle(.inset)
             
             Button(action: {
