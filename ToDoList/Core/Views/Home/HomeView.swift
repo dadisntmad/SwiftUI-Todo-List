@@ -31,7 +31,6 @@ struct HomeView: View {
                     
                     Button(action: {
                         authViewModel.signOut()
-                        
                     }, label: {
                         Image(systemName: "person.circle")
                             .foregroundStyle(.black)
@@ -39,8 +38,20 @@ struct HomeView: View {
                 }
                 .padding(.horizontal)
                 
+                if homeViewModel.tasks.isEmpty {
+                    VStack {
+                        Spacer()
+                        Text("😔")
+                            .font(.largeTitle)
+                        
+                        Text("You don't have any tasks.")
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                }
                 
-                List {
+                List() {
                     ForEach(homeViewModel.tasks) { task in
                         HStack {
                             ZStack {
@@ -106,8 +117,8 @@ struct HomeView: View {
                         .frame(maxWidth: .infinity)
                         .background(Color.gray.opacity(0.2))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .keyboardType(.emailAddress)
                         .textInputAutocapitalization(.never)
+                        .submitLabel(.done)
                         .padding(.bottom, 14)
                     
                     ButtonView(title: "Add Task", action: {
