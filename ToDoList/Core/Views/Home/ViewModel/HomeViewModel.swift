@@ -5,6 +5,7 @@ import FirebaseFirestore
 
 class HomeViewModel: ObservableObject {
     @Published var tasks: [TaskModel] = []
+    @Published var isLoading = false
     
     private let auth = Auth.auth()
     private let firestore = Firestore.firestore()
@@ -25,5 +26,24 @@ class HomeViewModel: ObservableObject {
         ]
         
         tasks = newTasks
+    }
+    
+    @MainActor
+    func addTask(taskText: String) async throws {
+        isLoading = true
+        
+            let taskId = UUID().uuidString
+            
+            let task = TaskModel(
+                uid: auth.currentUser?.uid ?? "",
+                taskId: taskId,
+                taskText: taskText,
+                createdAt: .now,
+                isCompleted: false
+            )
+            
+            try firestore.collection("tasks").document(taskId).setData(from: task)
+            
+            isLoading = false
     }
 }

@@ -5,6 +5,7 @@ struct HomeView: View {
     @State private var taskText = ""
     
     @StateObject private var homeViewModel = HomeViewModel()
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     
     private var isNotValid: Bool {
@@ -29,7 +30,8 @@ struct HomeView: View {
                     })
                     
                     Button(action: {
-                        // sign out
+                              authViewModel.signOut()
+
                     }, label: {
                         Image(systemName: "person.circle")
                             .foregroundStyle(.black)
@@ -107,12 +109,19 @@ struct HomeView: View {
                         .padding(.bottom, 14)
                     
                     ButtonView(title: "Add Task", action: {
+                        Task {
+                            try await homeViewModel.addTask(taskText: taskText)
+                            taskText = ""
+                        }
                         
-                    }, 
-                               fillColor: isNotValid ? .gray.opacity(0.65) : .black,
-                               isLoading: false
+                        if !homeViewModel.isLoading {
+                            showBottomSheet = false
+                        }
+                    },
+                               fillColor: isNotValid || homeViewModel.isLoading ? .gray.opacity(0.65) : .black,
+                               isLoading: homeViewModel.isLoading
                     )
-                    .disabled(isNotValid)
+                    .disabled(isNotValid || homeViewModel.isLoading)
                     
                     Spacer()
                 }
