@@ -30,6 +30,7 @@ class AuthViewModel: ObservableObject {
             
             try firestore.collection("users").document(newUser.uid).setData(from: newUser)
             
+            isAuthenticated = true
             signUpError = nil
             isLoading = false
             
@@ -56,6 +57,7 @@ class AuthViewModel: ObservableObject {
         do {
             try await auth.signIn(withEmail: email, password: password)
             
+            isAuthenticated = true
             signInError = nil
             isLoading = false
             
@@ -80,7 +82,7 @@ class AuthViewModel: ObservableObject {
         
         do {
             try auth.signOut()
-            
+            isAuthenticated = false
             isLoading = false
         } catch (let error) {
             isLoading = false

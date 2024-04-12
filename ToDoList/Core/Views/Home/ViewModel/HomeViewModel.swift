@@ -10,6 +10,10 @@ class HomeViewModel: ObservableObject {
     private let auth = Auth.auth()
     private let firestore = Firestore.firestore()
     
+    var uncompletedTasksCount: Int {
+        tasks.filter({ !$0.isCompleted }).count
+    }
+    
     
     init() {
         getTasks()
@@ -61,5 +65,11 @@ class HomeViewModel: ObservableObject {
     
     func deleteTask(taskId: String) async throws {
         try await firestore.collection("tasks").document(taskId).delete()
+    }
+    
+    func markAsCompleted(taskId: String, isCompleted: Bool) async throws {
+        try await firestore.collection("tasks").document(taskId).updateData([
+            "isCompleted": isCompleted,
+        ])
     }
 }

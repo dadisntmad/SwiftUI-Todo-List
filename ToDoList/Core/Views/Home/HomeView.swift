@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var showBottomSheet = false
     @State private var taskText = ""
+    @State private var isCompleted = false
     
     @StateObject private var homeViewModel = HomeViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
@@ -16,18 +17,17 @@ struct HomeView: View {
         ZStack(alignment: .bottomTrailing) {
             VStack(alignment: .leading) {
                 HStack {
-                    Text("Todos")
-                        .font(.title)
-                        .bold()
+                    VStack(alignment: .leading) {
+                        Text("Todos")
+                            .font(.title)
+                            .bold()
+                        
+                        Text("Uncompleted: \(homeViewModel.uncompletedTasksCount)")
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                    }
                     
                     Spacer()
-                    
-                    Button(action: {
-                        // filter
-                    }, label: {
-                        Image(systemName: "line.3.horizontal.decrease.circle")
-                            .foregroundStyle(.black)
-                    })
                     
                     Button(action: {
                         authViewModel.signOut()
@@ -51,22 +51,22 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
                 
-                List() {
+                List {
                     ForEach(homeViewModel.tasks) { task in
                         HStack {
                             ZStack {
                                 Circle()
-                                    .strokeBorder(.green, lineWidth: 1)
+                                    .strokeBorder(task.isCompleted ? .green : .gray, lineWidth: 1)
                                     .frame(width: 20, height: 20)
                                 
                                 Image(systemName: "checkmark")
                                     .resizable()
-                                    .foregroundStyle(.green)
+                                    .foregroundStyle(task.isCompleted ? .green : .gray)
                                     .frame(width: 10, height: 10)
                             }
-                            .opacity(task.isCompleted ? 1 : 0)
                             
                             Text(task.taskText)
+                                .strikethrough(task.isCompleted)
                                 .frame(height: 40)
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
@@ -84,6 +84,13 @@ struct HomeView: View {
                                     }
                                     .tint(.gray)
                                 }
+                        }
+                        .onTapGesture {
+                            isCompleted.toggle()
+                            
+                            Task {
+                                try await homeViewModel.markAsCompleted(taskId: task.id, isCompleted: isCompleted)
+                            }
                         }
                     }
                 }
