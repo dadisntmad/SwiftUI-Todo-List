@@ -72,4 +72,15 @@ class HomeViewModel: ObservableObject {
             "isCompleted": isCompleted,
         ])
     }
+    
+    @MainActor
+    func editTask(taskId: String, taskText: String) async throws {
+        isLoading = true
+        
+        try await firestore.collection("tasks").document(taskId).updateData([
+            "taskText": taskText
+        ])
+        
+        isLoading = false
+    }
 }

@@ -15,6 +15,7 @@
 		F77BC9DF2BC094EE0025762F /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77BC9DE2BC094EE0025762F /* SignUpView.swift */; };
 		F7A4FCDA2BC6F26700C182AA /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A4FCD92BC6F26700C182AA /* TaskModel.swift */; };
 		F7A4FCDD2BC6F4BB00C182AA /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A4FCDC2BC6F4BB00C182AA /* HomeViewModel.swift */; };
+		F7B43F552BCECEF5004F6AAC /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B43F542BCECEF5004F6AAC /* AddTaskView.swift */; };
 		F7CBDB3E2BC5A74B0090A467 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CBDB3D2BC5A74B0090A467 /* ErrorView.swift */; };
 		F7CBDB412BC5B04A0090A467 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CBDB402BC5B04A0090A467 /* HomeView.swift */; };
 		F7CD862B2BC460C300C1414E /* SecureTextFieldViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CD862A2BC460C300C1414E /* SecureTextFieldViewModifier.swift */; };
@@ -36,6 +37,7 @@
 		F77BC9DE2BC094EE0025762F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		F7A4FCD92BC6F26700C182AA /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		F7A4FCDC2BC6F4BB00C182AA /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		F7B43F542BCECEF5004F6AAC /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		F7CBDB3D2BC5A74B0090A467 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		F7CBDB402BC5B04A0090A467 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F7CD862A2BC460C300C1414E /* SecureTextFieldViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureTextFieldViewModifier.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		F77BC9D12BC089030025762F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F7B43F532BCECEE0004F6AAC /* AddTask */,
 				F7CBDB3F2BC5B03D0090A467 /* Home */,
 				F77BC9D52BC0896A0025762F /* Auth */,
 			);
@@ -155,6 +158,14 @@
 				F7A4FCDC2BC6F4BB00C182AA /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F7B43F532BCECEE0004F6AAC /* AddTask */ = {
+			isa = PBXGroup;
+			children = (
+				F7B43F542BCECEF5004F6AAC /* AddTaskView.swift */,
+			);
+			path = AddTask;
 			sourceTree = "<group>";
 		};
 		F7CBDB3F2BC5B03D0090A467 /* Home */ = {
@@ -273,6 +284,7 @@
 				F7CBDB412BC5B04A0090A467 /* HomeView.swift in Sources */,
 				F7A4FCDD2BC6F4BB00C182AA /* HomeViewModel.swift in Sources */,
 				F77BC9DF2BC094EE0025762F /* SignUpView.swift in Sources */,
+				F7B43F552BCECEF5004F6AAC /* AddTaskView.swift in Sources */,
 				F7A4FCDA2BC6F26700C182AA /* TaskModel.swift in Sources */,
 				F7CD862B2BC460C300C1414E /* SecureTextFieldViewModifier.swift in Sources */,
 				F77BC9D72BC0898E0025762F /* SignInView.swift in Sources */,
