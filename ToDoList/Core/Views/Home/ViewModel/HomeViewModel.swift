@@ -19,7 +19,10 @@ class HomeViewModel: ObservableObject {
         getTasks()
     }
     
-    private func getTasks() {
+
+   nonisolated private func getTasks() {
+        isLoading = true
+        
         guard let currentUserID = auth.currentUser?.uid else { return }
         
         firestore.collection("tasks")
@@ -27,6 +30,7 @@ class HomeViewModel: ObservableObject {
             .order(by: "createdAt", descending: true)
             .addSnapshotListener { snapshot, error in
                 guard let documents = snapshot?.documents else {
+                    self.isLoading = false
                     print("Error fetching documents: \(error ?? NSError())")
                     return
                 }
@@ -34,12 +38,17 @@ class HomeViewModel: ObservableObject {
                 self.tasks = documents.compactMap { snapshot in
                     do {
                         let task = try snapshot.data(as: TaskModel.self)
+                        
+                        self.isLoading = false
+                        
                         return task
                     } catch {
+                        self.isLoading = false
                         print("Error decoding task: \(error)")
                         return nil
                     }
                 }
+                self.isLoading = false
             }
     }
     

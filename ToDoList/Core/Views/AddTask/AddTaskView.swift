@@ -25,10 +25,9 @@ struct AddTaskView: View {
                 .padding(.bottom, 14)
             
             ButtonView(title: "Add Task", action: {
-
-                    Task {
-                        try await homeViewModel.addTask(taskText: taskText)
-                        taskText = ""
+                Task {
+                    try await homeViewModel.addTask(taskText: taskText)
+                    taskText = ""
                 }
                 
                 if !homeViewModel.isLoading {

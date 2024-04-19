@@ -1,13 +1,16 @@
 import SwiftUI
 
 struct HomeView: View {
-    
     @State private var isCompleted = false
-    @State private var isEditMode = false
-    @State private var taskId = ""
+    @State private var showSheet = false
+    @State private var taskText = ""
     
     @StateObject private var homeViewModel = HomeViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
+    
+    private var isNotValid: Bool {
+        taskText.isEmpty
+    }
     
     var body: some View {
         NavigationStack {
@@ -19,9 +22,11 @@ struct HomeView: View {
                                 .font(.title)
                                 .bold()
                             
-                            Text("Uncompleted: \(homeViewModel.uncompletedTasksCount)")
-                                .font(.caption)
-                                .foregroundStyle(.gray)
+                            if homeViewModel.uncompletedTasksCount > 0 {
+                                Text("Uncompleted: \(homeViewModel.uncompletedTasksCount)")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
                         }
                         
                         Spacer()
@@ -35,7 +40,14 @@ struct HomeView: View {
                     }
                     .padding(.horizontal)
                     
-                    if homeViewModel.tasks.isEmpty {
+                    if homeViewModel.isLoading {
+                        VStack {
+                            Spacer()
+                            ProgressView()
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        
+                    } else if homeViewModel.tasks.isEmpty {
                         VStack {
                             Spacer()
                             Text("😔")
@@ -73,9 +85,11 @@ struct HomeView: View {
                                         } label: {
                                             Label("Delete", systemImage: "trash")
                                         }
+                                        .tint(.red)
                                         
                                         Button {
-                                          
+                                            showSheet.toggle()
+                                            taskText = task.taskText
                                         } label: {
                                             Label("Edit", systemImage: "pencil.and.scribble")
                                             
@@ -90,6 +104,46 @@ struct HomeView: View {
                                     try await homeViewModel.markAsCompleted(taskId: task.id, isCompleted: isCompleted)
                                 }
                             }
+                            .sheet(isPresented: $showSheet, content: {
+                                VStack {
+                                    Capsule()
+                                        .fill(.gray.opacity(0.5))
+                                        .frame(width: 30, height: 1.5)
+                                    
+                                    Spacer()
+                                    
+                                    TextField("Update or write a new task...", text: $taskText)
+                                        .padding()
+                                        .frame(height: 50)
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.gray.opacity(0.2))
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        .textInputAutocapitalization(.never)
+                                        .submitLabel(.done)
+                                        .padding(.bottom, 14)
+                                    
+                                    ButtonView(title: "Save", action: {
+                                        Task {
+                                            try await homeViewModel.editTask(taskId: task.id, taskText: taskText)
+                                            taskText = ""
+                                        }
+                                        
+                                        if !homeViewModel.isLoading {
+                                            showSheet = false
+                                        }
+                                    },
+                                               fillColor: isNotValid || homeViewModel.isLoading ? .gray.opacity(0.65) : .black,
+                                               isLoading: homeViewModel.isLoading
+                                    )
+                                    .disabled(isNotValid || homeViewModel.isLoading)
+                                    
+                                    Spacer()
+                                    
+                                }
+                                .presentationDetents([.medium])
+                                .padding()
+                            })
+                            
                         }
                     }
                 }
