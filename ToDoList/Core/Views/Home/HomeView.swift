@@ -140,10 +140,9 @@ struct HomeView: View {
                                     Spacer()
                                     
                                 }
-                                .presentationDetents([.medium])
                                 .padding()
+                                .presentationDetents([.medium])
                             })
-                            
                         }
                     }
                 }
